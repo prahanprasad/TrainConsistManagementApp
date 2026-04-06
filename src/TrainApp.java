@@ -1,12 +1,30 @@
 import java.util.Arrays;
 
-// ---------------- UC17: Arrays.sort() ----------------
+// ---------------- UC19: Binary Search ----------------
 
-class BogieSorter {
+class BinarySearchUtil {
 
-    // Method to sort bogie names
-    public static void sortBogieNames(String[] bogies) {
-        Arrays.sort(bogies);
+    public static boolean binarySearch(String[] bogieIds, String key) {
+
+        int low = 0;
+        int high = bogieIds.length - 1;
+
+        while (low <= high) {
+
+            int mid = low + (high - low) / 2;
+
+            int comparison = key.compareTo(bogieIds[mid]);
+
+            if (comparison == 0) {
+                return true; // Found
+            } else if (comparison > 0) {
+                low = mid + 1; // Search right half
+            } else {
+                high = mid - 1; // Search left half
+            }
+        }
+
+        return false; // Not found
     }
 }
 
@@ -14,20 +32,19 @@ class BogieSorter {
 public class TrainApp {
     public static void main(String[] args) {
 
-        String[] bogieTypes = {
-                "Sleeper",
-                "AC Chair",
-                "First Class",
-                "General",
-                "Luxury"
-        };
+        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogieTypes));
+        // Ensure sorted (MANDATORY)
+        Arrays.sort(bogieIds);
 
-        BogieSorter.sortBogieNames(bogieTypes);
+        String searchKey = "BG309";
 
-        System.out.println("After Sorting:");
-        System.out.println(Arrays.toString(bogieTypes));
+        boolean found = BinarySearchUtil.binarySearch(bogieIds, searchKey);
+
+        if (found) {
+            System.out.println("Bogie found: " + searchKey);
+        } else {
+            System.out.println("Bogie not found: " + searchKey);
+        }
     }
 }
